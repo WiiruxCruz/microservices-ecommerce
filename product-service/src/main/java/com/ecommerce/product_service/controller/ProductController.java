@@ -17,6 +17,7 @@ import com.ecommerce.product_service.dto.ProductRequestDTO;
 import com.ecommerce.product_service.dto.ProductResponseDTO;
 import com.ecommerce.product_service.service.ProductService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -27,7 +28,7 @@ public class ProductController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ProductResponseDTO createProduct(@RequestBody ProductRequestDTO productRequestDTO) {
+	public ProductResponseDTO createProduct(@RequestBody @Valid ProductRequestDTO productRequestDTO) {
 		return productService.createProduct(productRequestDTO);
 	}
 	
@@ -52,7 +53,7 @@ public class ProductController {
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ProductResponseDTO updateProduct(@PathVariable String id,
-			@RequestBody ProductRequestDTO productRequestDTO) {
+			@RequestBody @Valid ProductRequestDTO productRequestDTO) {
 		return productService.updateProduct(id, productRequestDTO);
 	}
 }
