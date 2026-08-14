@@ -56,4 +56,9 @@ public class ProductController {
 			@RequestBody @Valid ProductRequestDTO productRequestDTO) {
 		return productService.updateProduct(id, productRequestDTO);
 	}
+	
+	@GetMapping("/test-fail")
+	public void testFail() {
+		throw new RuntimeException("¡Boom! La base de datos explotó (simulacro)");
+	}
 }
