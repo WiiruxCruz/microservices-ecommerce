@@ -1,5 +1,6 @@
 package com.ecommerce.product_service.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
@@ -12,21 +13,41 @@ import com.mongodb.client.MongoClients;
 
 @Configuration
 public class MongoConfig extends AbstractMongoClientConfiguration {
+	
+	@Value("${spring.data.mongodb.host}")
+	private String host;
+	
+	@Value("${spring.data.mongodb.port}")
+	private int port;
+	
+	@Value("${spring.data.mongodb.database}")
+	private String database;
+	
+	@Value("${spring.data.mongodb.username}")
+	private String username;
+	
+	@Value("${spring.data.mongodb.password}")
+	private String password;
+	
+	@Value("${spring.data.mongodb.authentication-database}")
+	private String authDatabase;
 
 	@Override
 	protected String getDatabaseName() {
 		// TODO Auto-generated method stub
-		return "product-db";
+		return database;
 	}
 	
 	@Bean
 	public MongoClient mongoClient() {
 		MongoCredential credential = MongoCredential.createCredential(
-				"root", "admin", "password".toCharArray()
+				username, authDatabase, password.toCharArray()
 				);
 		
+		String connectionString = String.format("mongodb://%s:%d", host, port);
+		
 		MongoClientSettings settings = MongoClientSettings.builder()
-				.applyConnectionString( new ConnectionString("mongodb://localhost:27017"))
+				.applyConnectionString( new ConnectionString(connectionString))
 				.credential(credential)
 				.build();
 		
