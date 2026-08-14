@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.product_service.dto.ProductRequestDTO;
 import com.ecommerce.product_service.dto.ProductResponseDTO;
+import com.ecommerce.product_service.exception.ResourceNotFoundException;
 import com.ecommerce.product_service.mapper.ProductMapper;
 import com.ecommerce.product_service.model.Product;
 import com.ecommerce.product_service.repository.ProductRepository;
@@ -45,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		Product product = repository.findById(id)
 				.orElseThrow(
-						() -> new RuntimeException("Producto no encontrado con el id: " + id)
+						() -> new ResourceNotFoundException("Producto", "id", id)
 				);
 		
 		return mapper.toProductResponseDTO(product);
@@ -56,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		Product product = repository.findById(id)
 				.orElseThrow(
-						() -> new RuntimeException("Producto no encontrado con el id: " + id)
+						() -> new ResourceNotFoundException("Producto", "id", id)
 				);
 		
 		mapper.updateProductFromRequest(productRequest, product);
@@ -70,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteProduct(String id) {
 		// TODO Auto-generated method stub
 		if(!repository.existsById(id)) {
-			throw new RuntimeException("Poducto no encontrado con el id:" + id);
+			throw new ResourceNotFoundException("Poducto", "id", id);
 		}
 			
 		
