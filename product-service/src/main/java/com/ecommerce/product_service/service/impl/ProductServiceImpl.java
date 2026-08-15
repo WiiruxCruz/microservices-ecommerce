@@ -13,9 +13,11 @@ import com.ecommerce.product_service.repository.ProductRepository;
 import com.ecommerce.product_service.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 	
 	private final ProductRepository repository;
@@ -27,6 +29,8 @@ public class ProductServiceImpl implements ProductService {
 		Product product = mapper.toProduct(requestDTO);
 		
 		Product savedProduct = repository.save(product);
+		
+		log.info("Product {} guardado", savedProduct.getName());
 		
 		return mapper.toProductResponseDTO(savedProduct);
 	}
@@ -64,6 +68,8 @@ public class ProductServiceImpl implements ProductService {
 		
 		Product updatedProduct = repository.save(product);
 		
+		log.info("Product {} actualizado", updatedProduct.getName());
+		
 		return mapper.toProductResponseDTO(updatedProduct);
 	}
 
@@ -76,6 +82,8 @@ public class ProductServiceImpl implements ProductService {
 			
 		
 		repository.deleteById(id);
+		
+		log.info("Product con el id:{} fue eliminado", id);
 	}
 
 }
