@@ -1,4 +1,4 @@
-package com.ecommerce.product_service.exception;
+package com.ecommerce.inventory_service.exception;
 
 import java.net.URI;
 import java.time.Instant;
