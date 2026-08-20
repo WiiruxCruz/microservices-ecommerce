@@ -8,7 +8,7 @@ import com.ecommerce.inventory_service.dto.InventoryResponse;
 public interface InventoryService {
 	boolean isInStock(String sku, Integer quantity);
 	InventoryResponse createInventory(InventoryRequest inventoryRequest);
-	List<InventoryResponse> getAllInventory(InventoryRequest inventoryRequest);
+	List<InventoryResponse> getAllInventory();
 	InventoryResponse updateInventory(Long id, InventoryRequest inventoryRequest);
 	void deleteInventory(Long id);
 }

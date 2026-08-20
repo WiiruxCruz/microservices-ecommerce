@@ -54,7 +54,7 @@ public class InventoryServiceImpl implements InventoryService{
 
 	@Override
 	@Transactional( readOnly = true )
-	public List<InventoryResponse> getAllInventory(InventoryRequest inventoryRequest) {
+	public List<InventoryResponse> getAllInventory() {
 		// TODO Auto-generated method stub
 		return inventoryRepository.findAll()
 				.stream()
