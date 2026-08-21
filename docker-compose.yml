@@ -11,6 +11,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
       - mongo_data:/data/db  # <--- ¡Aquí salvamos los datos!
+
   inventory-db:
     image: mysql:8
     container_name: inventory-db
