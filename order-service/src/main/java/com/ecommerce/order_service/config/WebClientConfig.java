@@ -20,9 +20,9 @@ public class WebClientConfig {
 	
 	@Bean
 	public InventoryClient inventoryClient(WebClient webClient) {
-		WebClientAdapter adapter = WebClientAdapter.create(webClient);
 		
-		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(adapter).build();
+		HttpServiceProxyFactory factory =
+				HttpServiceProxyFactory.builderFor(WebClientAdapter.create(webClient)).build();
 		
 		return factory.createClient(InventoryClient.class);
 	}
