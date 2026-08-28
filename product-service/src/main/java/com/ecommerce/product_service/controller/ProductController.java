@@ -2,6 +2,8 @@ package com.ecommerce.product_service.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +19,19 @@ import com.ecommerce.product_service.dto.ProductRequestDTO;
 import com.ecommerce.product_service.dto.ProductResponseDTO;
 import com.ecommerce.product_service.service.ProductService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
+@RefreshScope
 public class ProductController {
 	private final ProductService productService;
+	
+	@Value("${app.maintenance.message: Sistema operativo}")
+	private String maintenanceMessage;
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -34,7 +41,8 @@ public class ProductController {
 	
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<ProductResponseDTO> getAllProducts(){
+	public List<ProductResponseDTO> getAllProducts(HttpServletResponse response){
+		response.addHeader("X-Maintenance-Message", maintenanceMessage);
 		return productService.getAllsProduts();
 	}
 	
