@@ -3,6 +3,8 @@ package com.ecommerce.order_service.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,17 +26,26 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@RefreshScope
 public class OrderServiceImpl implements OrderService{
 	
 	private final OrderRepository orderRepository;
 	private final OrderMapper orderMapper;
 	//private final WebClient.Builder webClientBuilder;
 	private final InventoryClient inventoryClient;
+	
+	@Value("${order.enabled:true}")
+	private boolean ordersEnabled;
 
 	@Override
 	@Transactional
 	public OrderResponse placeOrder(OrderRequest orderRequest) {
 		// TODO Auto-generated method stub
+		
+		if(!ordersEnabled) {
+			log.warn("Pedido rechazado: Servicio deshabilitado por configuración");
+			throw new RuntimeException("El servicio de pedidios está actualmente en mantenimiento. Intenté más tarde");
+		}
 		
 		log.info("Colocando nuevo pedido");
 		
