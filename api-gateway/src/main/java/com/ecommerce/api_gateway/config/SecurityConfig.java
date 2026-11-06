@@ -34,12 +34,16 @@ public class SecurityConfig {
 													.pathMatchers("/api/v1/inventory/**").hasRole(Role.ADMIN.name())
 													
 													.pathMatchers(HttpMethod.POST, "/api/v1/order").hasRole(Role.USER.name())
-													.pathMatchers("/api/v1/order/**").hasRole(Role.ADMIN.name())
+													.pathMatchers(HttpMethod.GET, "/api/v1/order/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
+													.pathMatchers(HttpMethod.DELETE, "/api/v1/order/**").hasRole(Role.ADMIN.name())
+													.pathMatchers(HttpMethod.PUT, "/api/v1/order/**").hasRole(Role.ADMIN.name())
+													
+													//.pathMatchers("/api/v1/order/**").hasRole(Role.ADMIN.name())
 													
 													.anyExchange().authenticated()
 				)
-				.oauth2ResourceServer(
-						oauth2 -> oauth2.jwt( 
+				.oauth2ResourceServer( oauth2 -> oauth2
+						.jwt( 
 								jwt -> jwt.jwtAuthenticationConverter(reactiveJwtauthenticationConverterAdapter()) 
 						)
 				);
